@@ -24,7 +24,7 @@ XAnimationOptions xAnimationOptions = new XAnimationOptions()
 
 xAnimationOptions.withLottieUrl(XAnimationConstants.ASSETS_FADE_IN_ANI)
     .withAnimationType(XAnimationType.TYPE_ASSIGN_VIEW)
-    .withLayerName("logo512.png")//指定json中的"logo192.png"图层动画应用到原生控件上
+    .withLayerName("logo192.png")//指定json中的"logo192.png"图层动画应用到原生控件上
     .withResourceEntryName("img_left");//原生控件id名称
 
 xAnimation.startViewAnimation(mContext, xAnimationOptions);
