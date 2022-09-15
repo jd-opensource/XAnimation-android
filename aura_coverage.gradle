@@ -1,0 +1,71 @@
+apply plugin: 'aura-coverage'
+
+/**
+ * 源代码路径
+ */
+def sourceDirs = ['src/main/java']
+/**
+ * class 文件路径
+ */
+def appClassPath = 'build/intermediates/javac/debug'
+/**
+ * 过滤的class文件
+ */
+def excludeFilter = ['**/R*.class',
+                     '**/*$InjectAdapter.class',
+                     '**/*$ModuleAdapter.class',
+                     '**/*$ViewInjector*.class',
+                     '**/BR.class',
+                     '**/BuildConfig.class',
+                     '**/DataBinderMapperImpl.class'
+]
+
+/**
+ * Android单元测试覆盖率
+ * Task:AuraReportAndroidUnitCoverage
+ */
+aura_android_coverage {
+    //报告类型
+    reports = {
+        xml.enabled = false
+        html.enabled = true
+        csv.enabled = false
+    }
+    //class文件
+    coverageClassDirs = fileTree(dir: appClassPath, excludes: excludeFilter)
+    //java源文件
+    coverageSourceDirs = files(sourceDirs)
+    //覆盖率文件路径
+    coverageExecutionData = files("build/aura_coverage/androidTest/android_coverage.ec")
+    //单元测试任务
+    depTask = rootProject.androidUnitDepTask
+    //是否忽略fail
+    ignoreFailures = Boolean.parseBoolean(rootProject.ignoreFailures)
+}
+
+/**
+ * Java单元测试覆盖率
+ * Task:AuraReportJavaUnitCoverage
+ */
+aura_java_coverage {
+    reports = aura_android_coverage.reports
+    coverageClassDirs = aura_android_coverage.coverageClassDirs
+    coverageSourceDirs = aura_android_coverage.coverageSourceDirs
+    coverageExecutionData = files("build/aura_coverage/javaTest/java_coverage.ec")
+    depTask = rootProject.javaUnitDepTask
+    ignoreFailures = Boolean.parseBoolean(rootProject.ignoreFailures)
+
+}
+
+/**
+ * 集成测试覆盖
+ * Task:AuraReportTestCoverage
+ */
+aura_test_coverage {
+    reports = aura_android_coverage.reports
+    coverageClassDirs = aura_android_coverage.coverageClassDirs
+    coverageSourceDirs = aura_android_coverage.coverageSourceDirs
+    //覆盖率文件存放相对位置
+    coverageExecutionData = files("../coverage.ec")
+    depTask = rootProject.unitDepTask
+}
