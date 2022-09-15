@@ -1,8 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'AuraAar'
-apply plugin: 'AuraConfig'
-//apply plugin: 'jdrouter'
-//apply from: "../aura_coverage.gradle"
 
 android {
     compileSdkVersion Integer.parseInt(rootProject.compileSdkVersion)
@@ -38,7 +34,6 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    annotationProcessor 'com.jingdong.wireless.platform-sdk:platform-annotation:1.0.0-r1'
     implementation "androidx.appcompat:appcompat:1.0.0"
     // Do not upgrade to 2.0 because it will bring in Kotlin as a transitive dependency.
     implementation("com.squareup.okio:okio:1.17.4")
